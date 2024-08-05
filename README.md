@@ -5,7 +5,6 @@
 - Make sure you install fzf. If you go to the git repo, it will tele you how to install with windows and linux
 - Install ripgrep, [here](https://github.com/BurntSushi/ripgrep?tab=readme-ov-file#installation)
 
-
 ## Tips and Tricks
 
 - If you are having issues with treesitter, run this command
@@ -45,7 +44,7 @@
 - Customize the greeter in your Neovim configuration file by setting up the `alpha.setup` function.
 - You can define your own dashboard sections and header.
 
-### auto-session
+### auto-session (probably remove if we use tmux)
 
 **Description:** A simple automated session management for Neovim.
 
@@ -54,16 +53,6 @@
 - Start a new session with `:SessionSave`.
 - Restore the last session with `:SessionRestore`.
 - Configure auto-session options in your Neovim configuration file.
-
-### bufferline.nvim
-
-**Description:** A snazzy buffer line for Neovim.
-
-**How to use:**
-
-- Navigate between buffers using `:BufferLineCycleNext` and `:BufferLineCyclePrev`.
-- Close a buffer with `:BufferLinePickClose`.
-- Configure bufferline options in your Neovim configuration file.
 
 ### cmp-buffer
 
@@ -127,15 +116,6 @@
 
 - Load the snippets in your LuaSnip setup.
 - Use the snippets with your preferred snippet engine.
-
-### fzf-lua
-
-**Description:** A highly configurable fzf interface for Neovim.
-
-**How to use:**
-
-- Use `:FzfLua` followed by a command, such as `files` or `buffers`, to invoke fzf.
-- Configure fzf-lua options in your Neovim configuration file.
 
 ### gitsigns.nvim
 
