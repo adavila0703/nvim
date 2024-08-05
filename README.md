@@ -3,6 +3,16 @@
 ## Getting started
 
 - Make sure you install fzf. If you go to the git repo, it will tele you how to install with windows and linux
+- Install ripgrep, [here](https://github.com/BurntSushi/ripgrep?tab=readme-ov-file#installation)
+
+
+## Tips and Tricks
+
+- If you are having issues with treesitter, run this command
+
+```sh
+:TSUpdate
+```
 
 ## Plugins
 
