@@ -4,6 +4,7 @@
 
 - Make sure you install fzf. If you go to the git repo, it will tele you how to install with windows and linux
 - Install ripgrep, [here](https://github.com/BurntSushi/ripgrep?tab=readme-ov-file#installation)
+- Install lazygit, [here](https://github.com/jesseduffield/lazygit)
 
 ## Tips and Tricks
 
