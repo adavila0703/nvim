@@ -23,6 +23,6 @@ keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) 
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 
 -- git / github
-keymap.set("n", "<leader>gcp", ":Copilot panel<CR>", { desc = "Open Copilot panel" })
-keymap.set("n", "<leader>gcs", ":Copilot suggestion<CR>", { desc = "Open Copilot suggestion" })
 keymap.set("n", "<leader>gv", ":LazyGit<CR>", { desc = "Open LazyGit" })
+keymap.set("n", "<leader>gb", ":Gitsigns blame<CR>", { desc = "Blame" })
+keymap.set("n", "<leader>gc", ":CopilotChat<CR>", { desc = "Open Copilot Chat" })

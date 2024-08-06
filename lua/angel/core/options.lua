@@ -5,6 +5,8 @@ local opt = vim.opt
 opt.relativenumber = true
 opt.number = true
 
+vim.o.statuscolumn = "%-4l %r %s"
+
 -- tabs & indentation
 opt.tabstop = 2
 opt.shiftwidth = 2
