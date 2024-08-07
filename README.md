@@ -4,6 +4,8 @@
 
 - Install ripgrep, [here](https://github.com/BurntSushi/ripgrep?tab=readme-ov-file#installation)
 - Install lazygit, [here](https://github.com/jesseduffield/lazygit)
+- Install go (or remove gpls from the lsp)
+- Install node.js
 
 ## Tips and Tricks
 
@@ -12,6 +14,14 @@
 ```sh
 :TSUpdate
 ```
+
+- If you get this error
+```
+Error detected while processing InsertLeave Autocommands for "*":
+Error running eslint_d: ENOENT: no such file or directory
+```
+
+then run `npm install -g eslint_d`
 
 ## Plugins
 
