@@ -9,19 +9,38 @@
 
 ## Tips and Tricks
 
-- If you are having issues with treesitter, run this command
+### Issues with treesitter
 
 ```sh
 :TSUpdate
 ```
 
-- If you get this error
+### Eslint_d error
 ```
 Error detected while processing InsertLeave Autocommands for "*":
 Error running eslint_d: ENOENT: no such file or directory
 ```
 
 then run `npm install -g eslint_d`
+
+### Colors not right in tmux (wsl)
+
+Set in your .tmux.config
+```sh
+set -g default-terminal "tmux-256color"
+set-option -sa terminal-overrides ",xterm-256color:RGB"
+```
+
+Export in .bashrc or .zshrc
+```sh
+export TERM="xterm-256color"
+```
+
+Source
+```sh
+tmux source-file ~/.tmux.conf
+source ~/.bashrc  # or source ~/.zshrc
+```
 
 ## Plugins
 
