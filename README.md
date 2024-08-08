@@ -27,8 +27,8 @@ then run `npm install -g eslint_d`
 
 Set in your .tmux.config
 ```sh
-set -g default-terminal "tmux-256color"
-set-option -sa terminal-overrides ",xterm-256color:RGB"
+set -g default-terminal "screen-256color"
+set -ga terminal-overrides ",xterm-256color:Tc"
 ```
 
 Export in .bashrc or .zshrc
