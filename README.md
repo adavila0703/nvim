@@ -6,6 +6,7 @@
 - Install lazygit, [here](https://github.com/jesseduffield/lazygit)
 - Install go (or remove gpls from the lsp)
 - Install node.js
+- Install nerd font [here](https://github.com/ryanoasis/nerd-fonts)
 
 ## Tips and Tricks
 
