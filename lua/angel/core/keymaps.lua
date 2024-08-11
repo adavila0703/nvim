@@ -10,10 +10,6 @@ keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste over visual selection" })
 keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { desc = "Open tmux sessionizer" }) -- not working for some reason
 keymap.set("n", "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Rename all instances" })
 
--- increment/decrement numbers
--- keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
--- keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" }) -- decrement
-
 -- move command
 keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move line down" })
 keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move line up" })
@@ -34,6 +30,8 @@ keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer
 keymap.set("n", "<leader>gv", ":LazyGit<CR>", { desc = "Open LazyGit" })
 keymap.set("n", "<leader>gb", ":Gitsigns blame<CR>", { desc = "Blame" })
 keymap.set("n", "<leader>gc", ":CopilotChat<CR>", { desc = "Open Copilot Chat" })
+keymap.set("n", "<leader>ge", ":Copilot enable", { desc = "Enables Copilot" })
+keymap.set("n", "<leader>gd", ":Copilot disable", { desc = "Disables Copilot" })
 
 -- nvim-tree
 keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })                         -- toggle file explorer
