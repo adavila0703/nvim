@@ -10,6 +10,11 @@
 
 ## Tips and Tricks
 
+### Installing a new lsp
+
+1. add it to lsp.lua
+2. install with MasonInstall
+
 ### Issues with treesitter
 
 ```sh
