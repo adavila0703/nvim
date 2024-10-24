@@ -30,6 +30,7 @@ return {
 				"gopls",
 				"ts_ls",
 				"clangd",
+				"prismals", -- Added Prisma
 			},
 		})
 
