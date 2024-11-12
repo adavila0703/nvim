@@ -30,6 +30,7 @@ return {
 						cwd = function()
 							return vim.fn.getcwd()
 						end,
+            args = { "--coverage", "--watchAll=false" },
 					}),
 				},
 			})
@@ -40,9 +41,7 @@ return {
 				neotest.run.run()
 			end, { desc = "run test under cursor" })
 
-			vim.keymap.set("n", "<leader>ttf", function()
-			  neotest.run.file()
-			end, { desc = "Run test file" })
+			vim.keymap.set('n', '<leader>ttf', ':lua require("neotest").run.run(vim.fn.expand("%"))<CR>', { desc = "Run test file" })
 
 			vim.keymap.set("n", "<leader>tts", function()
 			  neotest.run.suite()
