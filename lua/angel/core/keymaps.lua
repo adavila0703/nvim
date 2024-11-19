@@ -43,4 +43,4 @@ vim.keymap.set("n", "<leader>cdn", function() vim.diagnostic.goto_next() end, { 
 vim.keymap.set("n", "<leader>cdp", function() vim.diagnostic.goto_prev() end, { desc = "Previous diagnostic" })
 
 -- utils
-keymap.set("n", "<leader>yf", ":let @+ = expand('%:p')<CR>", { desc = "Yank file path to clipboard" })
+vim.keymap.set("n", "<leader>yf", ":let @+ = expand('%:p')<CR>", { desc = "Yank file path to clipboard" })
