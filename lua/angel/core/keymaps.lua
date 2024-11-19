@@ -5,7 +5,8 @@ keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 
 -- primeagen
 keymap.set("n", "n", "nzzzv", { desc = "Move to next search item" })
-keymap.set("n", "<leader>yf", ":let @+ = expand('%:p')<CR>", { desc = "Yank file path to clipboard" })ymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })      -- make split windows equal width & height
+keymap.set("n", "<leader>yf", ":let @+ = expand('%:p')<CR>", { desc = "Yank file path to clipboard" })
+keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })      -- make split windows equal width & height
 keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- close current split window
 
 -- tab managment
