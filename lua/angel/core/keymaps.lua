@@ -5,18 +5,7 @@ keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 
 -- primeagen
 keymap.set("n", "n", "nzzzv", { desc = "Move to next search item" })
-keymap.set("n", "N", "Nzzzv", { desc = "Move to previous search item" })
-keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste over visual selection" })
-keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { desc = "Open tmux sessionizer" }) -- not working for some reason
-keymap.set("n", "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Rename all instances" })
-
--- move command
-keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move line down" })
-keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move line up" })
-
--- window management
-keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })     -- split window vertically keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" })   -- split window horizontally
-keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })      -- make split windows equal width & height
+kkeymap.set("n", "<leader>yf", ":let @+ = expand('%:p')<CR>", { desc = "Yank file path to clipboard" })ymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })      -- make split windows equal width & height
 keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- close current split window
 
 -- tab managment
@@ -52,3 +41,6 @@ vim.keymap.set("n", "<leader>ch", function() vim.lsp.buf.signature_help() end, {
 vim.keymap.set("n", "<leader>cdo", function() vim.diagnostic.open_float() end, { desc = "Open diagnostics" })
 vim.keymap.set("n", "<leader>cdn", function() vim.diagnostic.goto_next() end, { desc = "Next diagnostic" })
 vim.keymap.set("n", "<leader>cdp", function() vim.diagnostic.goto_prev() end, { desc = "Previous diagnostic" })
+
+-- utils
+keymap.set("n", "<leader>yf", ":let @+ = expand('%:p')<CR>", { desc = "Yank file path to clipboard" })
