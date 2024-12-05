@@ -40,15 +40,18 @@ keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse fi
 keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" })                       -- refresh file explorer
 
 -- lsp coolness
-vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, { desc = "Go to definition" })
-vim.keymap.set("n", "gc", function() vim.lsp.buf.declaration() end, { desc = "Go to declaration" })
-vim.keymap.set("n", "gi", function() vim.lsp.buf.implementation() end, { desc = "Go to implementation" })
-vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, { desc = "Show hover doc" })
-vim.keymap.set("n", "<leader>cs", function() vim.lsp.buf.workspace_symbol() end, { desc = "Search workspace symbols" })
-vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, { desc = "Code action" })
-vim.keymap.set("n", "<leader>cr", function() vim.lsp.buf.references() end, { desc = "Find references" })
-vim.keymap.set("n", "<leader>cn", function() vim.lsp.buf.rename() end, { desc = "Rename" })
-vim.keymap.set("n", "<leader>ch", function() vim.lsp.buf.signature_help() end, { desc = "Signature help" })
-vim.keymap.set("n", "<leader>cdo", function() vim.diagnostic.open_float() end, { desc = "Open diagnostics" })
-vim.keymap.set("n", "<leader>cdn", function() vim.diagnostic.goto_next() end, { desc = "Next diagnostic" })
-vim.keymap.set("n", "<leader>cdp", function() vim.diagnostic.goto_prev() end, { desc = "Previous diagnostic" })
+keymap.set("n", "gd", function() vim.lsp.buf.definition() end, { desc = "Go to definition" })
+keymap.set("n", "gc", function() vim.lsp.buf.declaration() end, { desc = "Go to declaration" })
+keymap.set("n", "gi", function() vim.lsp.buf.implementation() end, { desc = "Go to implementation" })
+keymap.set("n", "K", function() vim.lsp.buf.hover() end, { desc = "Show hover doc" })
+keymap.set("n", "<leader>cs", function() vim.lsp.buf.workspace_symbol() end, { desc = "Search workspace symbols" })
+keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, { desc = "Code action" })
+keymap.set("n", "<leader>cr", function() vim.lsp.buf.references() end, { desc = "Find references" })
+keymap.set("n", "<leader>cn", function() vim.lsp.buf.rename() end, { desc = "Rename" })
+keymap.set("n", "<leader>ch", function() vim.lsp.buf.signature_help() end, { desc = "Signature help" })
+keymap.set("n", "<leader>cdo", function() vim.diagnostic.open_float() end, { desc = "Open diagnostics" })
+keymap.set("n", "<leader>cdn", function() vim.diagnostic.goto_next() end, { desc = "Next diagnostic" })
+keymap.set("n", "<leader>cdp", function() vim.diagnostic.goto_prev() end, { desc = "Previous diagnostic" })
+
+-- utils
+keymap.set("n", "<leader>yf", ":let @+ = expand('%:p')<CR>", { desc = "Yank file path to clipboard" })
