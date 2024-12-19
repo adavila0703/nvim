@@ -59,6 +59,17 @@ return {
 			capabilities = capabilities,
 		})
 
+		require("lspconfig").tailwindcss.setup({
+			cmd = { 'tailwindcss-language-server', '--stdio' },
+			filetypes = { 'html', 'css', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
+			root_dir = require('lspconfig').util.root_pattern('tailwind.config.js', 'tailwind.config.ts', 'postcss.config.js', '.git'),
+			settings = {
+				tailwindCSS = {
+					classAttributes = { 'class', 'className', 'ngClass', 'v-bind:class' }
+				}
+			}
+		})
+
 		-- nvim-cmp setup for autocompletion
 		cmp.setup({
 			snippet = {
