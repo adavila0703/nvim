@@ -31,6 +31,7 @@ return {
 				"ts_ls",
 				"clangd",
 				"prismals", -- Added Prisma
+				"elixirls", -- Added Elixir
 			},
 		})
 
@@ -56,6 +57,10 @@ return {
 		})
 
 		require("lspconfig").clangd.setup({
+			capabilities = capabilities,
+		})
+
+		require("lspconfig").elixirls.setup({
 			capabilities = capabilities,
 		})
 
