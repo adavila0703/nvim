@@ -79,6 +79,10 @@ return {
 			capabilities = capabilities,
 		})
 
+		require("lspconfig").elixirls.setup({
+			capabilities = capabilities,
+		})
+
 		-- nvim-cmp setup for autocompletion
 		cmp.setup({
 			snippet = {
