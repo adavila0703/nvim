@@ -3,6 +3,11 @@ local keymap = vim.keymap
 keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 
+-- telescope
+keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy find files" })
+keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
+keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Find string under cursor in cwd" })
+
 -- primeagen
 keymap.set("n", "n", "nzzzv", { desc = "Move to next search item" })
 keymap.set("n", "N", "Nzzzv", { desc = "Move to previous search item" })

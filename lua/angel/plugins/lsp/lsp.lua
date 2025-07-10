@@ -21,60 +21,69 @@ return {
 			cmp_lsp.default_capabilities()
 		)
 
-		-- Mason setup to manage LSP servers
-		require("mason").setup()
+		-- Basic Mason setup
+		require("mason").setup({
+			ui = {
+				icons = {
+					package_installed = "✓",
+					package_pending = "➜",
+					package_uninstalled = "✗"
+				}
+			}
+		})
+
 		require("mason-lspconfig").setup({
 			ensure_installed = {
 				"lua_ls",
-				"rust_analyzer",
+				"ts_ls",    -- TypeScript/JavaScript
+				"eslint",   -- ESLint
 				"gopls",
-				"ts_ls",
-				"clangd",
-				"prismals", -- Added Prisma
+			},
+			automatic_installation = true,
+		})
+
+		-- TypeScript setup
+		require("lspconfig").ts_ls.setup({
+			capabilities = capabilities,
+			cmd = { "typescript-language-server", "--stdio" },
+			root_dir = require("lspconfig").util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
+			single_file_support = true,
+			init_options = {
+				hostInfo = "neovim",
+				preferences = {
+					includeInlayParameterNameHints = "all",
+					includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+					includeInlayFunctionParameterTypeHints = true,
+					includeInlayVariableTypeHints = true,
+					includeInlayPropertyDeclarationTypeHints = true,
+					includeInlayFunctionLikeReturnTypeHints = true,
+					includeInlayEnumMemberValueHints = true,
+				},
 			},
 		})
 
-		-- setup the lsp this way or you get weird issues with snippets on windows
-		require("lspconfig").ts_ls.setup({
-			capabilities = vim.tbl_extend("keep", capabilities, {
-				textDocument = {
-					completion = {
-						completionItem = {
-							snippetSupport = false, -- Disable snippet support
-						},
-					},
-				},
-			}),
+		-- ESLint setup
+		require("lspconfig").eslint.setup({
+			capabilities = capabilities,
+			root_dir = require("lspconfig").util.root_pattern(".eslintrc", ".eslintrc.js", ".eslintrc.json"),
+			settings = {
+				workingDirectory = { mode = "auto" },
+			},
 		})
 
 		require("lspconfig").gopls.setup({
 			capabilities = capabilities,
 		})
 
-		require("lspconfig").rust_analyzer.setup({
+		require("lspconfig").lua_ls.setup({
 			capabilities = capabilities,
-		})
-
-		require("lspconfig").clangd.setup({
-			capabilities = capabilities,
-		})
-
-		require("lspconfig").tailwindcss.setup({
-			cmd = { 'tailwindcss-language-server', '--stdio' },
-			filetypes = { 'html', 'css', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
-			root_dir = require('lspconfig').util.root_pattern('tailwind.config.js', 'tailwind.config.ts', 'postcss.config.js', '.git'),
-			settings = {
-				tailwindCSS = {
-					classAttributes = { 'class', 'className', 'ngClass', 'v-bind:class' }
-				}
-			}
 		})
 
 		-- nvim-cmp setup for autocompletion
 		cmp.setup({
 			snippet = {
 				expand = function(args)
-					require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
+					require("luasnip").lsp_expand(args.body)
 				end,
 			},
 			mapping = cmp.mapping.preset.insert({
@@ -85,7 +94,7 @@ return {
 			}),
 			sources = cmp.config.sources({
 				{ name = "nvim_lsp" },
-				{ name = "luasnip" }, -- For luasnip users.
+				{ name = "luasnip" },
 			}, {
 				{ name = "buffer" },
 			}),
