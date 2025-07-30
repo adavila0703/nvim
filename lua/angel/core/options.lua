@@ -52,10 +52,27 @@ opt.updatetime = 50
 -- set leader key
 vim.g.mapleader = " "
 
+-- Enhanced folding configuration
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.opt.foldcolumn = "0"
-vim.opt.foldtext = ""
+vim.opt.foldcolumn = "0"  -- Disabled for UFO compatibility
+vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"  -- Better fold text
 vim.opt.foldlevel = 99
--- vim.opt.foldlevelstart =0
+vim.opt.foldlevelstart = 99  -- Start with all folds open
 vim.opt.foldnestmax = 4
+vim.opt.fillchars = vim.opt.fillchars + "foldopen:▾,foldclose:▸,foldsep:│"  -- Better fold indicators
+
+-- Alternative: Fast indent-based folding (uncomment to use)
+-- vim.opt.foldmethod = "indent"
+-- vim.opt.foldcolumn = "1"
+-- vim.opt.foldlevel = 99
+-- vim.opt.foldlevelstart = 99
+-- vim.opt.fillchars = vim.opt.fillchars + "foldopen:▾,foldclose:▸,foldsep:│"
+
+-- Alternative: Manual folding with markers (uncomment to use)
+-- vim.opt.foldmethod = "marker"
+-- vim.opt.foldmarker = "{{{,}}}"
+-- vim.opt.foldcolumn = "1"
+-- vim.opt.foldlevel = 99
+-- vim.opt.foldlevelstart = 99
+-- vim.opt.fillchars = vim.opt.fillchars + "foldopen:▾,foldclose:▸,foldsep:│"

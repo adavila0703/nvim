@@ -60,3 +60,31 @@ keymap.set("n", "<leader>cdp", function() vim.diagnostic.goto_prev() end, { desc
 
 -- utils
 keymap.set("n", "<leader>yf", ":let @+ = expand('%:p')<CR>", { desc = "Yank file path to clipboard" })
+
+-- Enhanced folding keymaps
+keymap.set("n", "za", "za", { desc = "Toggle fold under cursor" })
+keymap.set("n", "zA", "zA", { desc = "Toggle fold under cursor recursively" })
+keymap.set("n", "zo", "zo", { desc = "Open fold under cursor" })
+keymap.set("n", "zO", "zO", { desc = "Open fold under cursor recursively" })
+keymap.set("n", "zc", "zc", { desc = "Close fold under cursor" })
+keymap.set("n", "zC", "zC", { desc = "Close fold under cursor recursively" })
+keymap.set("n", "zm", "zm", { desc = "Close all folds" })
+keymap.set("n", "zM", "zM", { desc = "Close all folds recursively" })
+keymap.set("n", "zr", "zr", { desc = "Open all folds" })
+keymap.set("n", "zR", "zR", { desc = "Open all folds recursively" })
+keymap.set("n", "zj", "zj", { desc = "Move to next fold" })
+keymap.set("n", "zk", "zk", { desc = "Move to previous fold" })
+
+-- Custom folding shortcuts
+keymap.set("n", "<leader>zf", "za", { desc = "Toggle fold under cursor" })
+keymap.set("n", "<leader>zF", "zA", { desc = "Toggle fold under cursor recursively" })
+keymap.set("n", "<leader>zo", "zo", { desc = "Open fold under cursor" })
+keymap.set("n", "<leader>zc", "zc", { desc = "Close fold under cursor" })
+keymap.set("n", "<leader>zM", "zM", { desc = "Close all folds" })
+keymap.set("n", "<leader>zR", "zR", { desc = "Open all folds" })
+keymap.set("n", "<leader>zj", "zj", { desc = "Next fold" })
+keymap.set("n", "<leader>zk", "zk", { desc = "Previous fold" })
+
+-- Visual mode folding
+keymap.set("v", "<leader>zf", "zf", { desc = "Create fold from visual selection" })
+keymap.set("v", "<leader>zd", "zd", { desc = "Delete fold under cursor" })
