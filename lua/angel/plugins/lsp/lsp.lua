@@ -21,28 +21,52 @@ return {
 			cmp_lsp.default_capabilities()
 		)
 
-		-- Basic Mason setup
+		-- Enhanced Mason setup with better UI and automatic installation
 		require("mason").setup({
 			ui = {
 				icons = {
 					package_installed = "✓",
 					package_pending = "➜",
 					package_uninstalled = "✗"
-				}
-			}
-		})
-
-		require("mason-lspconfig").setup({
-			ensure_installed = {
-				"lua_ls",
-				"ts_ls",    -- TypeScript/JavaScript
-				"eslint",   -- ESLint
-				"gopls",
+				},
+				border = "rounded",
+				width = 0.8,
+				height = 0.8,
 			},
+			-- Automatically install packages when they're missing
 			automatic_installation = true,
 		})
 
-		-- TypeScript setup
+		-- Comprehensive LSP server list with automatic installation
+		require("mason-lspconfig").setup({
+			ensure_installed = {
+				"lua_ls",           -- Lua
+				"ts_ls",            -- TypeScript/JavaScript
+				"eslint",           -- ESLint
+				"gopls",            -- Go
+				"elixirls",         -- Elixir
+				"rust_analyzer",    -- Rust
+				"pyright",          -- Python
+				"clangd",           -- C/C++
+				"jsonls",           -- JSON
+				"cssls",            -- CSS
+				"html",             -- HTML
+				"yamlls",           -- YAML
+				"marksman",         -- Markdown
+				"dockerls",         -- Docker
+			},
+			automatic_installation = true,
+			-- Auto-configure servers after installation
+			handlers = {
+				function(server_name)
+					require("lspconfig")[server_name].setup({
+						capabilities = capabilities,
+					})
+				end,
+			},
+		})
+
+		-- Enhanced TypeScript setup with better configuration
 		require("lspconfig").ts_ls.setup({
 			capabilities = capabilities,
 			cmd = { "typescript-language-server", "--stdio" },
@@ -62,24 +86,179 @@ return {
 			},
 		})
 
-		-- ESLint setup
+		-- Enhanced ESLint setup
 		require("lspconfig").eslint.setup({
 			capabilities = capabilities,
-			root_dir = require("lspconfig").util.root_pattern(".eslintrc", ".eslintrc.js", ".eslintrc.json"),
+			root_dir = require("lspconfig").util.root_pattern(".eslintrc", ".eslintrc.js", ".eslintrc.json", "package.json"),
 			settings = {
 				workingDirectory = { mode = "auto" },
+				validate = "on",
+				packageManager = "npm",
 			},
 		})
 
+		-- Enhanced Go setup
 		require("lspconfig").gopls.setup({
 			capabilities = capabilities,
+			settings = {
+				gopls = {
+					analyses = {
+						unusedparams = true,
+						shadow = true,
+					},
+					staticcheck = true,
+					usePlaceholders = true,
+					hints = {
+						assignVariableTypes = true,
+						compositeLiteralFields = true,
+						compositeLiteralTypes = true,
+						functionTypeParameters = true,
+						parameterNames = true,
+						rangeVariableTypes = true,
+					},
+				},
+			},
 		})
 
+		-- Enhanced Lua setup
 		require("lspconfig").lua_ls.setup({
+			capabilities = capabilities,
+			settings = {
+				Lua = {
+					diagnostics = {
+						globals = { "vim" },
+					},
+					workspace = {
+						library = {
+							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+							[vim.fn.stdpath("config") .. "/lua"] = true,
+						},
+					},
+					telemetry = {
+						enable = false,
+					},
+				},
+			},
+		})
+
+		-- Enhanced Elixir setup
+		require("lspconfig").elixirls.setup({
+			capabilities = capabilities,
+			cmd = { "elixir-ls" },
+			settings = {
+				elixirLS = {
+					-- Dialyzer is disabled by default
+					dialyzerEnabled = false,
+					-- Enable or disable showing docs on hover
+					fetchDeps = false,
+					-- Enable or disable showing docs on hover
+					docsAtPoint = "ExDoc",
+				},
+			},
+		})
+
+		-- Python setup
+		require("lspconfig").pyright.setup({
+			capabilities = capabilities,
+			settings = {
+				python = {
+					analysis = {
+						autoSearchPaths = true,
+						useLibraryCodeForTypes = true,
+						diagnosticMode = "workspace",
+					},
+				},
+			},
+		})
+
+		-- Rust setup
+		require("lspconfig").rust_analyzer.setup({
+			capabilities = capabilities,
+			settings = {
+				["rust-analyzer"] = {
+					checkOnSave = {
+						command = "clippy",
+					},
+					cargo = {
+						loadOutDirsFromCheck = true,
+					},
+					procMacro = {
+						enable = true,
+					},
+				},
+			},
+		})
+
+		-- C/C++ setup
+		require("lspconfig").clangd.setup({
+			capabilities = capabilities,
+			cmd = {
+				"clangd",
+				"--background-index",
+				"--clang-tidy",
+				"--header-insertion=iwyu",
+				"--completion-style=detailed",
+				"--fallback-style=Google",
+			},
+		})
+
+		-- JSON setup (simplified without schemastore)
+		require("lspconfig").jsonls.setup({
+			capabilities = capabilities,
+			settings = {
+				json = {
+					validate = { enable = true },
+				},
+			},
+		})
+
+		-- CSS setup
+		require("lspconfig").cssls.setup({
+			capabilities = capabilities,
+			settings = {
+				css = {
+					validate = true,
+					lint = {
+						unknownAtRules = "ignore",
+					},
+				},
+			},
+		})
+
+		-- HTML setup
+		require("lspconfig").html.setup({
+			capabilities = capabilities,
+			settings = {
+				html = {
+					format = {
+						templating = true,
+						wrapLineLength = 120,
+						wrapAttributes = "auto",
+					},
+				},
+			},
+		})
+
+		-- YAML setup
+		require("lspconfig").yamlls.setup({
+			capabilities = capabilities,
+			settings = {
+				yaml = {
+					schemas = {
+						["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+						["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose*.yml",
+					},
+				},
+			},
+		})
+
+		-- Markdown setup
+		require("lspconfig").marksman.setup({
 			capabilities = capabilities,
 		})
 
-		require("lspconfig").elixirls.setup({
+		-- Docker setup
+		require("lspconfig").dockerls.setup({
 			capabilities = capabilities,
 		})
 
@@ -104,7 +283,7 @@ return {
 			}),
 		})
 
-		-- Diagnostic config for better visuals
+		-- Enhanced diagnostic config for better visuals
 		vim.diagnostic.config({
 			float = {
 				focusable = false,
@@ -114,6 +293,53 @@ return {
 				header = "",
 				prefix = "",
 			},
+			signs = {
+				text = {
+					[vim.diagnostic.severity.ERROR] = "●",
+					[vim.diagnostic.severity.WARN] = "●",
+					[vim.diagnostic.severity.INFO] = "●",
+					[vim.diagnostic.severity.HINT] = "●",
+				},
+				numhl = {
+					[vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+					[vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+					[vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+					[vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+				},
+			},
+			underline = true,
+			virtual_text = {
+				spacing = 4,
+				prefix = "●",
+			},
+		})
+
+		-- Auto-format on save for supported file types
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			pattern = { "*.lua", "*.go", "*.rs", "*.py", "*.js", "*.ts", "*.jsx", "*.tsx" },
+			callback = function()
+				vim.lsp.buf.format({ async = false })
+			end,
+		})
+
+		-- Key mappings for LSP
+		vim.api.nvim_create_autocmd("LspAttach", {
+			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+			callback = function(ev)
+				local opts = { buffer = ev.buf }
+				vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+				vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+				vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+				vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+				vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+				vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
+				vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, opts)
+				vim.keymap.set("n", "<space>f", vim.lsp.buf.format, opts)
+				vim.keymap.set("n", "<space>d", vim.diagnostic.open_float, opts)
+				vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+				vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+			end,
 		})
 	end,
 }
