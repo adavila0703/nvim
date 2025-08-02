@@ -20,7 +20,7 @@ return {
 
       -- Automatically install missing parsers when entering buffer
       -- Recommendation: set to false if you don"t have `tree-sitter` CLI installed locally
-      auto_install = true,
+      auto_install = false, -- Disable for better performance
 
       indent = {
         enable = true,
@@ -34,11 +34,28 @@ return {
         -- Set this to `true` if you depend on "syntax" being enabled (like for indentation).
         -- Using this option may slow down your editor, and you may see some duplicate highlights.
         -- Instead of true it can also be a list of languages
-        additional_vim_regex_highlighting = { "markdown" },
+        additional_vim_regex_highlighting = false, -- Disable for performance
+        
+        -- Add disable function for large/minified files
+        disable = function(lang, bufnr)
+          local max_filesize = 100 * 1024 -- 100 KB
+          local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
+          if ok and stats and stats.size > max_filesize then
+            return true
+          end
+          
+          -- Disable for minified files
+          local filename = vim.api.nvim_buf_get_name(bufnr)
+          if filename:match("%.min%.") or filename:match("%.bundle%.") then
+            return true
+          end
+          
+          return false
+        end,
       },
 
       fold = {
-        enable = true,
+        enable = false, -- Disable folding in treesitter (use UFO instead)
       },
     })
 
