@@ -5,18 +5,6 @@ return {
   },
   event = "BufReadPost",
   config = function()
-    -- Disable built-in foldcolumn and set up custom statuscolumn
-    vim.o.foldcolumn = "0"
-    vim.o.statuscolumn = [[%!v:lua.vim.g.statuscolumn()]]
-
-    -- Custom function for the statuscolumn
-    vim.g.statuscolumn = function()
-      local line = vim.v.lnum
-      local icon = require('ufo').getFoldingVirtualText(line) or '  '
-      local number = vim.v.relnum == 0 and vim.v.lnum or vim.v.relnum
-      return string.format("%2s %3s ", icon, number)
-    end
-
     -- Configure UFO for better folding
     require("ufo").setup({
       provider_selector = function(bufnr, filetype, buftype)

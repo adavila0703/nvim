@@ -8,6 +8,27 @@ keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy f
 keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
 keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Find string under cursor in cwd" })
 
+-- harpoon
+keymap.set("n", "<leader>ha", function() require("harpoon.mark").add_file() end, { desc = "Mark file with harpoon" })
+keymap.set("n", "<leader>he", function() require("harpoon.ui").toggle_quick_menu() end, { desc = "Show harpoon marks" })
+keymap.set("n", "<leader>h1", function() require("harpoon.ui").nav_file(1) end, { desc = "Go to harpoon mark 1" })
+keymap.set("n", "<leader>h2", function() require("harpoon.ui").nav_file(2) end, { desc = "Go to harpoon mark 2" })
+keymap.set("n", "<leader>h3", function() require("harpoon.ui").nav_file(3) end, { desc = "Go to harpoon mark 3" })
+keymap.set("n", "<leader>h4", function() require("harpoon.ui").nav_file(4) end, { desc = "Go to harpoon mark 4" })
+keymap.set("n", "<leader>h5", function() require("harpoon.ui").nav_file(5) end, { desc = "Go to harpoon mark 5" })
+keymap.set("n", "<leader>h6", function() require("harpoon.ui").nav_file(6) end, { desc = "Go to harpoon mark 6" })
+keymap.set("n", "<leader>h7", function() require("harpoon.ui").nav_file(7) end, { desc = "Go to harpoon mark 7" })
+keymap.set("n", "<leader>h8", function() require("harpoon.ui").nav_file(8) end, { desc = "Go to harpoon mark 8" })
+keymap.set("n", "<leader>h9", function() require("harpoon.ui").nav_file(9) end, { desc = "Go to harpoon mark 9" })
+keymap.set("n", "<leader>h0", function() require("harpoon.ui").nav_file(10) end, { desc = "Go to harpoon mark 10" })
+
+-- harpoon terminal
+keymap.set("n", "<leader>ht1", function() require("harpoon.term").gotoTerminal(1) end, { desc = "Go to terminal 1" })
+keymap.set("n", "<leader>ht2", function() require("harpoon.term").gotoTerminal(2) end, { desc = "Go to terminal 2" })
+keymap.set("n", "<leader>ht3", function() require("harpoon.term").gotoTerminal(3) end, { desc = "Go to terminal 3" })
+keymap.set("n", "<leader>ht4", function() require("harpoon.term").gotoTerminal(4) end, { desc = "Go to terminal 4" })
+keymap.set("n", "<leader>ht5", function() require("harpoon.term").gotoTerminal(5) end, { desc = "Go to terminal 5" })
+
 -- primeagen
 keymap.set("n", "n", "nzzzv", { desc = "Move to next search item" })
 keymap.set("n", "N", "Nzzzv", { desc = "Move to previous search item" })
@@ -20,16 +41,17 @@ keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move line down" })
 keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move line up" })
 
 -- window management
-keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })     -- split window vertically keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" })   -- split window horizontally
+keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })     -- split window vertically
+keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" })   -- split window horizontally
 keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })      -- make split windows equal width & height
 keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- close current split window
 
 -- tab managment
-keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" })                     -- open new tabkeymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" })              -- close current tab
+keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" })                     -- open new tab
+keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" })              -- close current tab
 keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })                     --  go to next tab
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })                 --  go to previous tab
-keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })                 --  go to previous tab
-keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tabkeymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
+keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 
 -- git / github
 keymap.set("n", "<leader>gv", ":LazyGit<CR>", { desc = "Open LazyGit" })
