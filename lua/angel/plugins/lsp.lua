@@ -6,16 +6,14 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/nvim-cmp",
     "hrsh7th/cmp-buffer",
-    "hrsh7th/cmp-path", -- Add path completions
+    "hrsh7th/cmp-path",
     "L3MON4D3/LuaSnip",
     "saadparwaiz1/cmp_luasnip",
   },
 
   config = function()
-    -- Performance optimizations
-    vim.opt.synmaxcol = 500 -- Limit syntax highlighting for long lines
-    
-    -- Disable inlay hints in insert mode for better performance
+    vim.opt.synmaxcol = 500
+
     vim.api.nvim_create_autocmd("InsertEnter", {
       pattern = "*",
       callback = function(event)
@@ -24,7 +22,7 @@ return {
         end)
       end,
     })
-    
+
     vim.api.nvim_create_autocmd("InsertLeave", {
       pattern = "*",
       callback = function(event)
@@ -34,16 +32,14 @@ return {
       end,
     })
 
-    -- Simple diagnostic keymaps
     vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
     vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
-    vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>') 
+    vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
 
-    -- LSP keymaps when server attaches
     vim.api.nvim_create_autocmd('LspAttach', {
       desc = 'LSP actions',
       callback = function(event)
-        local opts = {buffer = event.buf, silent = true}
+        local opts = { buffer = event.buf, silent = true }
 
         vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
         vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
@@ -53,160 +49,167 @@ return {
         vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
         vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
         vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-        vim.keymap.set({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+        vim.keymap.set({ 'n', 'x' }, '<F3>', '<cmd>lua vim.lsp.buf.format({ async = true })<cr>', opts)
         vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
-      end
+      end,
     })
 
-    -- Setup Mason first
-    require('mason').setup({})
+    require("mason").setup()
 
-    -- Setup mason-lspconfig (disable automatic_enable to avoid compatibility issues)
-    require('mason-lspconfig').setup({
+    require("mason-lspconfig").setup({
       ensure_installed = {
-        'lua_ls',
-        'vtsls', -- Use vtsls instead of ts_ls
-        'eslint',
-        'gopls',
-        'rust_analyzer',
-        'pyright',
-        'clangd',
-        'jsonls',
-        'cssls',
-        'html',
-        'yamlls',
-        'marksman',
-        'dockerls',
+        "lua_ls",
+        "tsserver", -- still used by mason
+        "eslint",
+        "jsonls",
+        "cssls",
+        "html",
       },
-      automatic_enable = false, -- Disable to avoid v2.0+ compatibility issues
+      -- Add this line to disable automatic setup
+      automatic_installation = true,
+      -- Add this to disable automatic enable
+      automatic_enable = false,
+      handlers = {
+        -- This will be called for each installed server
+        function(server_name)
+          require("lspconfig")[server_name].setup({})
+        end,
+      },
     })
 
-    -- Get LSP capabilities for cmp integration
-    local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+    local lspconfig = require("lspconfig")
+    local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-    -- Configure servers manually with proper capabilities
-    local lspconfig = require('lspconfig')
-    
-    -- Default server setup function
-    local function setup_server(server_name, extra_config)
-      local config = { capabilities = lsp_capabilities }
-      if extra_config then
-        config = vim.tbl_deep_extend('force', config, extra_config)
+    local function setup(server, config)
+      local merged = vim.tbl_deep_extend("force", {
+        capabilities = capabilities,
+      }, config or {})
+
+      local ok, err = pcall(function()
+        lspconfig[server].setup(merged)
+      end)
+      if not ok then
+        vim.notify("Failed to setup LSP server " .. server .. ": " .. tostring(err), vim.log.levels.WARN)
       end
-      lspconfig[server_name].setup(config)
     end
 
-    -- Setup vtsls (more stable than ts_ls)
-    setup_server('vtsls', {
+    -- TypeScript (tsserver renamed to ts_ls)
+    setup("ts_ls", {
       settings = {
-        vtsls = {
-          experimental = {
-            completion = {
-              enableServerSideFuzzyMatch = true,
-              entriesLimit = 20, -- Limit completions for performance
+        typescript = {
+          tsserver = {
+            maxTsServerMemory = 1024,
+            disableAutomaticTypeAcquisition = true,
+            watchOptions = {
+              watchFile = "useFsEvents",
+              watchDirectory = "useFsEvents"
             },
+            enableTracing = false,
+            logVerbosity = "off",
+            maxNodeModuleJsDepth = 1,
           },
-          typescript = {
-            tsserver = {
-              maxTsServerMemory = 2048, -- Reduce memory usage
-              disableAutomaticTypeAcquisition = true,
-              useSyntaxServer = "never",
-            },
+        },
+        javascript = {
+          tsserver = {
+            maxTsServerMemory = 1024,
+            disableAutomaticTypeAcquisition = true,
+            enableTracing = false,
+            logVerbosity = "off",
+            maxNodeModuleJsDepth = 1,
           },
-          javascript = {
-            tsserver = {
-              maxTsServerMemory = 2048,
-              disableAutomaticTypeAcquisition = true,
-              useSyntaxServer = "never",
+        },
+        typescriptInlayHints = {
+          includeInlayParameterNameHints = "none",
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayFunctionParameterTypeHints = false,
+          includeInlayVariableTypeHints = false,
+          includeInlayPropertyDeclarationTypeHints = false,
+          includeInlayFunctionLikeReturnTypeHints = false,
+          includeInlayEnumMemberValueHints = false,
+        },
+        javascriptInlayHints = {
+          includeInlayParameterNameHints = "none",
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayFunctionParameterTypeHints = false,
+          includeInlayVariableTypeHints = false,
+          includeInlayPropertyDeclarationTypeHints = false,
+          includeInlayFunctionLikeReturnTypeHints = false,
+          includeInlayEnumMemberValueHints = false,
+        },
+      },
+      on_attach = function(client)
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
+      end,
+    })
+
+    -- ESLint
+    setup("eslint", {
+      settings = {
+        run = "onSave",
+      },
+    })
+
+    -- JSON, CSS, HTML
+    setup("jsonls")
+    setup("cssls")
+    setup("html")
+
+    -- Lua
+    setup("lua_ls", {
+      settings = {
+        Lua = {
+          runtime = {
+            version = "LuaJIT",
+          },
+          diagnostics = {
+            globals = { "vim" },
+          },
+          workspace = {
+            library = {
+              vim.env.VIMRUNTIME,
             },
           },
         },
       },
     })
 
-    -- Setup eslint with performance optimizations
-    setup_server('eslint', {
-      settings = {
-        run = "onSave", -- Only run on save for better performance
-      },
-    })
+    vim.opt.completeopt = { "menu", "menuone", "noinsert" }
 
-    -- Setup other servers
-    setup_server('gopls')
-    setup_server('rust_analyzer')
-    setup_server('pyright')
-    setup_server('clangd')
-    setup_server('jsonls')
-    setup_server('cssls')
-    setup_server('html')
-    setup_server('yamlls')
-    setup_server('marksman')
-    setup_server('dockerls')
-
-    -- Lua LSP with custom settings
-    setup_server('lua_ls', {
-      settings = {
-        Lua = {
-          runtime = {
-            version = 'LuaJIT'
-          },
-          diagnostics = {
-            globals = {'vim'},
-          },
-          workspace = {
-            library = {
-              vim.env.VIMRUNTIME,
-            }
-          }
-        }
-      }
-    })
-
-    -- Set completeopt for better completion experience
-    vim.opt.completeopt = {'menu', 'menuone', 'noinsert'}
-
-    local cmp = require('cmp')
+    local cmp = require("cmp")
 
     cmp.setup({
       sources = {
-        {name = 'nvim_lsp'},
-        {name = 'luasnip'},
-        {name = 'buffer'},
-        {name = 'path'}, -- Add path completions
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
+        { name = "buffer" },
+        { name = "path" },
       },
       mapping = cmp.mapping.preset.insert({
-        -- Navigate through completion items
-        ['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-n>'] = cmp.mapping.select_next_item(),
-        
-        -- Use Tab and Shift-Tab for navigation
-        ['<Tab>'] = cmp.mapping(function(fallback)
+        ["<C-p>"] = cmp.mapping.select_prev_item(),
+        ["<C-n>"] = cmp.mapping.select_next_item(),
+        ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
           else
             fallback()
           end
-        end, { 'i', 's' }),
-        
-        ['<S-Tab>'] = cmp.mapping(function(fallback)
+        end, { "i", "s" }),
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_prev_item()
           else
             fallback()
           end
-        end, { 'i', 's' }),
-        
-        -- Accept completion
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        
-        -- Close completion
-        ['<C-e>'] = cmp.mapping.abort(),
+        end, { "i", "s" }),
+        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        ["<C-e>"] = cmp.mapping.abort(),
       }),
       snippet = {
         expand = function(args)
-          require('luasnip').lsp_expand(args.body)
+          require("luasnip").lsp_expand(args.body)
         end,
       },
     })
   end,
-} 
+}
