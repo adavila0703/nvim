@@ -8,6 +8,27 @@ keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy f
 keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
 keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Find string under cursor in cwd" })
 
+-- harpoon
+keymap.set("n", "<leader>ha", function() require("harpoon.mark").add_file() end, { desc = "Mark file with harpoon" })
+keymap.set("n", "<leader>he", function() require("harpoon.ui").toggle_quick_menu() end, { desc = "Show harpoon marks" })
+keymap.set("n", "<leader>h1", function() require("harpoon.ui").nav_file(1) end, { desc = "Go to harpoon mark 1" })
+keymap.set("n", "<leader>h2", function() require("harpoon.ui").nav_file(2) end, { desc = "Go to harpoon mark 2" })
+keymap.set("n", "<leader>h3", function() require("harpoon.ui").nav_file(3) end, { desc = "Go to harpoon mark 3" })
+keymap.set("n", "<leader>h4", function() require("harpoon.ui").nav_file(4) end, { desc = "Go to harpoon mark 4" })
+keymap.set("n", "<leader>h5", function() require("harpoon.ui").nav_file(5) end, { desc = "Go to harpoon mark 5" })
+keymap.set("n", "<leader>h6", function() require("harpoon.ui").nav_file(6) end, { desc = "Go to harpoon mark 6" })
+keymap.set("n", "<leader>h7", function() require("harpoon.ui").nav_file(7) end, { desc = "Go to harpoon mark 7" })
+keymap.set("n", "<leader>h8", function() require("harpoon.ui").nav_file(8) end, { desc = "Go to harpoon mark 8" })
+keymap.set("n", "<leader>h9", function() require("harpoon.ui").nav_file(9) end, { desc = "Go to harpoon mark 9" })
+keymap.set("n", "<leader>h0", function() require("harpoon.ui").nav_file(10) end, { desc = "Go to harpoon mark 10" })
+
+-- harpoon terminal
+keymap.set("n", "<leader>ht1", function() require("harpoon.term").gotoTerminal(1) end, { desc = "Go to terminal 1" })
+keymap.set("n", "<leader>ht2", function() require("harpoon.term").gotoTerminal(2) end, { desc = "Go to terminal 2" })
+keymap.set("n", "<leader>ht3", function() require("harpoon.term").gotoTerminal(3) end, { desc = "Go to terminal 3" })
+keymap.set("n", "<leader>ht4", function() require("harpoon.term").gotoTerminal(4) end, { desc = "Go to terminal 4" })
+keymap.set("n", "<leader>ht5", function() require("harpoon.term").gotoTerminal(5) end, { desc = "Go to terminal 5" })
+
 -- primeagen
 keymap.set("n", "n", "nzzzv", { desc = "Move to next search item" })
 keymap.set("n", "N", "Nzzzv", { desc = "Move to previous search item" })
