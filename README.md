@@ -1,5 +1,11 @@
 # my-neovim
 
+## Prereq
+
+- node v20+
+- tsc v5.9.2
+- nvim v0.11
+
 ## Getting started
 
 - Install ripgrep, [here](https://github.com/BurntSushi/ripgrep?tab=readme-ov-file#installation)
@@ -22,6 +28,7 @@
 ```
 
 ### Eslint_d error
+
 ```
 Error detected while processing InsertLeave Autocommands for "*":
 Error running eslint_d: ENOENT: no such file or directory
@@ -32,17 +39,20 @@ then run `npm install -g eslint_d`
 ### Colors not right in tmux (wsl)
 
 Set in your .tmux.config
+
 ```sh
 set -g default-terminal "screen-256color"
 set -ga terminal-overrides ",xterm-256color:Tc"
 ```
 
 Export in .bashrc or .zshrc
+
 ```sh
 export TERM="xterm-256color"
 ```
 
 Source
+
 ```sh
 tmux source-file ~/.tmux.conf
 source ~/.bashrc  # or source ~/.zshrc
