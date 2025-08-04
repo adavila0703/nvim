@@ -98,22 +98,72 @@ return {
         capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
       end
 
-      local on_attach = function(client, bufnr)
-        local opts = { noremap = true, silent = true, buffer = bufnr }
+             local on_attach = function(client, bufnr)
+         local opts = { noremap = true, silent = true, buffer = bufnr }
 
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-        vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-        vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, opts)
+         -- Custom go to definition that handles duplicates and jumps directly
+         vim.keymap.set("n", "gd", function()
+           local params = vim.lsp.util.make_position_params()
+           vim.lsp.buf_request(0, "textDocument/definition", params, function(err, result, ctx, config)
+             if err then
+               vim.notify("Error: " .. err.message, vim.log.levels.ERROR)
+               return
+             end
+             
+             if not result or vim.tbl_isempty(result) then
+               vim.notify("No definition found", vim.log.levels.INFO)
+               return
+             end
 
-        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-        vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
+             -- Handle both Location and LocationLink
+             local locations = {}
+             if result[1] and result[1].targetUri then
+               -- LocationLink format
+               for _, link in ipairs(result) do
+                 table.insert(locations, {
+                   uri = link.targetUri,
+                   range = link.targetRange or link.targetSelectionRange
+                 })
+               end
+             else
+               -- Location format
+               locations = result
+             end
+
+             -- Remove duplicates based on uri and range
+             local unique_locations = {}
+             local seen = {}
+             for _, loc in ipairs(locations) do
+               local key = loc.uri .. ":" .. loc.range.start.line .. ":" .. loc.range.start.character
+               if not seen[key] then
+                 seen[key] = true
+                 table.insert(unique_locations, loc)
+               end
+             end
+
+             -- Jump directly if only one unique location
+             if #unique_locations == 1 then
+               vim.lsp.util.jump_to_location(unique_locations[1], "utf-8")
+             else
+               -- Show quickfix list if multiple locations
+               vim.lsp.util.locations_to_items(unique_locations, "utf-8")
+               vim.cmd("copen")
+             end
+           end)
+         end, opts)
+         
+         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+         vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+         vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+         vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+         vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, opts)
+
+         vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+         vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+         vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
       end
 
       local servers = {
