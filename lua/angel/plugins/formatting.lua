@@ -25,6 +25,8 @@ return {
 					args = { "-s", "-w", "-l" },
 					stdin = true,
 				},
+				elixir = { "mix_format" },
+				ruby = { "rubocop" },
 			},
 			format_on_save = {
 				lsp_fallback = true,
