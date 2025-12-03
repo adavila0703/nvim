@@ -88,8 +88,6 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      local lspconfig = require("lspconfig")
-
       vim.opt.completeopt = { "menuone", "noselect", "popup" }
 
       local cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
@@ -131,13 +129,13 @@ return {
       }
 
       for _, server in ipairs(servers) do
-        lspconfig[server].setup({
+        vim.lsp.config(server, {
           on_attach = on_attach,
           capabilities = capabilities,
         })
       end
 
-      lspconfig.lua_ls.setup({
+      vim.lsp.config("lua_ls", {
         on_attach = on_attach,
         capabilities = capabilities,
         settings = {
@@ -155,7 +153,7 @@ return {
         },
       })
 
-      lspconfig.pyright.setup({
+      vim.lsp.config("pyright", {
         on_attach = on_attach,
         capabilities = capabilities,
         settings = {
@@ -167,7 +165,7 @@ return {
         },
       })
 
-      lspconfig.gopls.setup({
+      vim.lsp.config("gopls", {
         on_attach = on_attach,
         capabilities = capabilities,
         settings = {
@@ -180,10 +178,10 @@ return {
         },
       })
 
-
       -- Set up Solargraph LSP
-      lspconfig.solargraph.setup({
+      vim.lsp.config("solargraph", {
         cmd = { "solargraph", "stdio" },
+        on_attach = on_attach,
         capabilities = capabilities,
         settings = {
           solargraph = {
