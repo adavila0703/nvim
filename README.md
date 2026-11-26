@@ -1,4 +1,22 @@
-# my-neovim
+# nvim
+
+My personal Neovim config, managed with [lazy.nvim](https://github.com/folke/lazy.nvim).
+
+## Install
+
+Back up any existing config, then clone into your Neovim config folder:
+
+```sh
+# Linux / macOS
+git clone https://github.com/adavila0703/nvim.git ~/.config/nvim
+```
+
+```powershell
+# Windows
+git clone https://github.com/adavila0703/nvim.git $env:LOCALAPPDATA\nvim
+```
+
+Open `nvim` and lazy.nvim installs the plugins on first launch.
 
 ## Prereq
 
